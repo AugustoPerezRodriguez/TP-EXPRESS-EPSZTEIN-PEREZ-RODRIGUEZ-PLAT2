@@ -89,6 +89,97 @@ app.get('/matematica/dividir', (req, res) => {
   res.status(200).send(String(dividir(n1, n2)));
 });
 
+//c
+
+app.get('/omdb/searchbypage', async (req, res) => {
+  const search = req.query.search;
+  const p = req.query.p;
+
+  try {
+    const data = await OMDBSearchByPage(search, p);
+    res.status(200).send(armarEnvelope(data));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send(armarEnvelope(null));
+  }
+});
+
+app.get('/omdb/searchcomplete', async (req, res) => {
+  const search = req.query.search;
+
+  try {
+    const data = await OMDBSearchComplete(search);
+    res.status(200).send(armarEnvelope(data));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send(armarEnvelope(null));
+  }
+});
+
+app.get('/omdb/getbyomdbid', async (req, res) => {
+  const imdbID = req.query.imdbID;
+
+  try {
+    const data = await OMDBGetByImdbID(imdbID);
+    res.status(200).send(armarEnvelope(data));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send(armarEnvelope(null));
+  }
+});
+
+function armarEnvelope(datos) {
+  if (!datos) {
+    return { respuesta: false, cantidadTotal: 0, datos: [] };
+  }
+
+  if (Array.isArray(datos)) {
+    return {
+      respuesta: datos.length > 0,
+      cantidadTotal: datos.length,
+      datos: datos
+    };
+  }
+  return {
+    respuesta: true,
+    cantidadTotal: 1,
+    datos: datos
+  };
+}
+
+//d
+
+const alumnosArray = [];
+alumnosArray.push(new Alumno("Esteban Dido",   "22888444", 20));
+alumnosArray.push(new Alumno("Matias Queroso", "28946255", 51));
+alumnosArray.push(new Alumno("Elba Calao",     "32623391", 18));
+
+app.get('/alumnos', (req, res) => {
+  res.status(200).send(alumnosArray);
+});
+
+app.get('/alumnos/:dni', (req, res) => {
+  const dniBuscado = req.params.dni;
+
+  const alumno = alumnosArray.find(item => item.dni === dniBuscado);
+  if(!alumno)
+  return res.status(404).send('Alumno Not Found')
+
+  res.status(200).send(alumno);
+});
+
+app.post('/alumnos/:username/:dni/:edad', (req, res) => {
+  const { username, dni, edad } = req.body;
+  if (!username || !dni || !edad) {
+    return res.status(400).send('Faltan datos');
+  }
+
+  const nuevoAlumno = new Alumno(username, dni, edad);
+  alumnosArray.push(nuevoAlumno);
+
+  res.status(201).send(nuevoAlumno);
+});
+
 
 // === Arranca el servidor ===
 app.listen(port, () => {
