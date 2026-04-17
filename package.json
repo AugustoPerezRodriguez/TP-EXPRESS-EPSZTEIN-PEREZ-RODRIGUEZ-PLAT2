@@ -1,0 +1,26 @@
+{
+  "name": "tp04",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "tp04",
+  "homepage": "https://github.com/AugustoPerezRodriguez/TP-EXPRESS-EPSZTEIN-PEREZ-RODRIGUEZ-PLAT2#readme",
+  "bugs": {
+    "url": "https://github.com/AugustoPerezRodriguez/TP-EXPRESS-EPSZTEIN-PEREZ-RODRIGUEZ-PLAT2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AugustoPerezRodriguez/TP-EXPRESS-EPSZTEIN-PEREZ-RODRIGUEZ-PLAT2.git"
+  },
+  "license": "ISC",
+  "author": "Augusto Peresozo Rodriguez, Toto Epz, Felipe Alberto Rodrigo Plat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.15.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
