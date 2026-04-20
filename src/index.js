@@ -168,7 +168,7 @@ app.get('/alumnos/:dni', (req, res) => {
   res.status(200).send(alumno);
 });
 
-app.post('/alumnos/:username/:dni/:edad', (req, res) => {
+app.post('/alumnos', (req, res) => {
   const { username, dni, edad } = req.body;
   if (!username || !dni || !edad) {
     return res.status(400).send('Faltan datos');
@@ -180,6 +180,22 @@ app.post('/alumnos/:username/:dni/:edad', (req, res) => {
   res.status(201).send(nuevoAlumno);
 });
 
+app.delete('/alumnos', (req, res) => {
+  const { dni } = req.body;
+  
+  if (!dni) {
+    return res.status(400).send('DNI requerido en el body');
+  }
+  
+  const indice = alumnosArray.findIndex(item => item.dni === dni);
+  
+  if (indice < 0) {
+    return res.status(404).send('Alumno Not Found');
+  }
+  
+  alumnosArray.splice(indice, 1);
+  res.status(200).send('Alumno eliminado');
+});
 
 // === Arranca el servidor ===
 app.listen(port, () => {
